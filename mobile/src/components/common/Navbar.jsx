@@ -3,9 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../constants/colors'
+import { useAuthStore } from '../../stores/authStore'
 
 const Navbar = () => {
   const navigation = useNavigation()
+  const { user } = useAuthStore()
+  const isPatient = user?.role === 'patient'
 
   return (
     <View style={styles.container}>
@@ -28,6 +31,15 @@ const Navbar = () => {
           </View>
           <Text style={styles.logoText}>MediPass</Text>
         </TouchableOpacity>
+        
+        {isPatient && (
+          <TouchableOpacity
+            style={styles.profileButton}
+            onPress={() => navigation.navigate('PatientProfile')}
+          >
+            <Ionicons name="person" size={24} color={colors.neutral[900]} />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   )
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingVertical: 16,
   },
@@ -64,6 +76,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.neutral[900],
+  },
+  profileButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.neutral[100],
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.neutral[200],
   },
 })
 

@@ -20,7 +20,7 @@ import robotImg from '../../../assets/images/robot.png'
 import userImg from '../../../assets/images/user.png'
 
 // 🔐 Gemini API
-const GEMINI_API_KEY = 'AIzaSyCzDjeUFYoauNnyBFxAGq1w8JKpr7vzyx8'
+const GEMINI_API_KEY = 'AIzaSyCt_UE3k04AQGwVPoWtIGUKOoEsVKnAOGA'
 
 const ai = new GoogleGenAI({
   apiKey: GEMINI_API_KEY,

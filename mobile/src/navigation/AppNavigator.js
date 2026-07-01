@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { useAuthStore } from '../stores/authStore'
 import { colors } from '../constants/colors'
+import { initializeNotifications, setupPatientNotificationListener } from '../services/notificationService'
 
 // Navigation ref for global navigation access
 export const navigationRef = React.createRef()
@@ -38,6 +39,8 @@ import PatientNotifications from '../pages/patient/PatientNotifications'
 import PatientHelpCenter from '../pages/patient/PatientHelpCenter'
 import PatientTermsConditions from '../pages/patient/PatientTermsConditions'
 import PatientDoctorsList from '../pages/patient/PatientDoctorsList'
+import PatientDoctorProfile from '../pages/patient/PatientDoctorProfile'
+import HealthDataScreen from '../pages/patient/HealthDataScreen'
 import DiagnosisDetail from '../pages/common/DiagnosisDetail'
 
 // Doctor Screens
@@ -91,8 +94,6 @@ const PatientTabNavigator = () => {
           else if (route.name === 'PatientMedicalTimeline') iconName = focused ? 'pulse' : 'pulse-outline'
           else if (route.name === 'PatientPrescriptions') iconName = focused ? 'medkit' : 'medkit-outline'
           else if (route.name === 'PatientEmergencyProfile') iconName = focused ? 'warning' : 'warning-outline'
-          else if (route.name === 'PatientChatbot') iconName = focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'
-          else if (route.name === 'PatientProfile') iconName = focused ? 'person' : 'person-outline'
 
           return <Ionicons name={iconName} size={size} color={color} />
         },
@@ -122,16 +123,6 @@ const PatientTabNavigator = () => {
         name="PatientEmergencyProfile"
         component={PatientEmergencyProfile}
         options={{ title: 'Emergency' }}
-      />
-      <Tab.Screen
-        name="PatientChatbot"
-        component={PatientChatbot}
-        options={{ title: 'Chatbot' }}
-      />
-      <Tab.Screen
-        name="PatientProfile"
-        component={PatientProfile}
-        options={{ title: 'Profile' }}
       />
 
     </Tab.Navigator>
@@ -202,35 +193,47 @@ const AppNavigator = () => {
 
   useEffect(() => {
     initializeAuth()
+    // Initialize notifications on app start
+    initializeNotifications()
   }, [initializeAuth])
+
+  // Setup patient notification listener
+  useEffect(() => {
+    if (user?.role === 'patient' && token) {
+      const unsubscribe = setupPatientNotificationListener(user.uid || user.id)
+      return () => {
+        if (unsubscribe) unsubscribe()
+      }
+    }
+  }, [user, token])
 
   useEffect(() => {
     // Navigate to appropriate screen when auth state changes
     // Use a small delay to ensure navigation is ready
     const timeoutId = setTimeout(() => {
       if (navigationRef.current?.isReady()) {
-        const isAuthenticated = !!token
-        const isPatient = user?.role === 'patient'
-        const isDoctor = user?.role === 'doctor'
+      const isAuthenticated = !!token
+      const isPatient = user?.role === 'patient'
+      const isDoctor = user?.role === 'doctor'
 
         try {
-          if (isAuthenticated) {
-            if (isPatient) {
+      if (isAuthenticated) {
+        if (isPatient) {
               navigationRef.current.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: 'PatientRoot' }],
-                })
+            index: 0,
+            routes: [{ name: 'PatientRoot' }],
+          })
               )
-            } else if (isDoctor) {
+        } else if (isDoctor) {
               navigationRef.current.dispatch(
                 CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: 'DoctorRoot' }],
-                })
+            index: 0,
+            routes: [{ name: 'DoctorRoot' }],
+          })
               )
-            }
-          } else {
+        }
+      } else {
             // When logged out, navigate to Landing
             const currentRoute = navigationRef.current.getCurrentRoute()
             if (currentRoute?.name !== 'Landing') {
@@ -247,8 +250,8 @@ const AppNavigator = () => {
             } catch (navError) {
               console.error('Fallback navigation error:', navError)
             }
-          }
-        }
+      }
+    }
       }
     }, 100) // Small delay to ensure state is updated
 
@@ -309,8 +312,28 @@ const AppNavigator = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="PatientDoctorProfile"
+              component={PatientDoctorProfile}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="HealthDataScreen"
+              component={HealthDataScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
               name="DiagnosisDetail"
               component={DiagnosisDetail}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PatientChatbot"
+              component={PatientChatbot}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PatientProfile"
+              component={PatientProfile}
               options={{ headerShown: false }}
             />
           </>
