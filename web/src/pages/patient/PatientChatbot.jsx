@@ -12,7 +12,7 @@ import userImg from '../../assets/user.png'
 
 import './PatientChatbot.css'
 
-const GEMINI_API_KEY = process.env.EXPO_PUBLIC_GEMINI_API;
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY })
 
