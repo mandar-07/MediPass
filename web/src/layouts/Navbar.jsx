@@ -40,3 +40,5 @@ const Navbar = ({ showPatientNav = false, showDoctorNav = false }) => {
 }
 
 export default Navbar
+
+//navbar 
