@@ -7,12 +7,12 @@ import PublicLayout from "./layouts/PublicLayout"
 import PatientLayout from "./layouts/PatientLayout"
 import DoctorLayout from "./layouts/DoctorLayout"
 
-// Public Pages
+// Public Pages this help us
 import LandingPage from "./pages/public/LandingPage"
 import RoleSelection from "./pages/public/RoleSelection"
 import AuthPage from "./pages/public/AuthPage"
 
-// Patient Pages
+// Patient Page
 import PatientDashboard from "./pages/patient/PatientDashboard"
 import PatientQRCode from "./pages/patient/PatientQRCode"
 
