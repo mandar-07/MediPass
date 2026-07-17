@@ -11,11 +11,11 @@ import { getStorage } from "firebase/storage"
 const firebaseConfig = {
   apiKey: "AIzaSyAN5bv_lD0cVQp4XjFVHvJPwVEmfLxC6WQ",
   authDomain: "chatbot-2e9be.firebaseapp.com",
+  databaseURL: "https://chatbot-2e9be-default-rtdb.firebaseio.com",
   projectId: "chatbot-2e9be",
   storageBucket: "chatbot-2e9be.firebasestorage.app",
   messagingSenderId: "778129422681",
-  appId: "1:778129422681:web:c80d6aa08f13f82cfbf448",
-  databaseURL : 'https://chatbot-2e9be-default-rtdb.firebaseio.com/' 
+  appId: "1:778129422681:web:c80d6aa08f13f82cfbf448"
 };
 
 // Initialize Firebase
