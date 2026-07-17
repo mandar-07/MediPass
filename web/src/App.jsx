@@ -23,7 +23,7 @@ import EditEmergencyProfile from "./pages/patient/EditEmergencyProfile"
 import PatientChatbot from "./pages/patient/PatientChatbot"
 import PatientEditProfile from "./pages/patient/PatientEditProfile"
 
-// Doctor Pages
+// Doctors Pages
 import DoctorDashboard from "./pages/doctor/DoctorDashboard"
 import DoctorQRScanner from "./pages/doctor/DoctorQRScanner"
 import DoctorPatientProfile from "./pages/doctor/DoctorPatientProfile"
